@@ -1,6 +1,26 @@
 // index.js - NEXUS WhatsApp Bot v2.0
 require('dotenv').config();
 
+// ============================================================
+// 🔥 FIX: Puppeteer Chrome path for Render
+// ============================================================
+const os = require('os');
+
+// If running on Render, set cache dir
+if (process.env.RENDER) {
+    process.env.PUPPETEER_CACHE_DIR = '/opt/render/.cache/puppeteer';
+    console.log('📦 Running on Render - Puppeteer cache set');
+}
+
+const express = require('express');
+const { Client, LocalAuth } = require('whatsapp-web.js');
+const qrcode = require('qrcode-terminal');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+const axios = require('axios');
+
+// ... rest of your code ...
 const express = require('express');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
