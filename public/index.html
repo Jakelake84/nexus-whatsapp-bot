@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS BOT - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: #f1f5f9;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff0066, #ff6600);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header p { color: #94a3b8; margin-top: 8px; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            backdrop-filter: blur(16px);
+        }
+        .stat-number { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #ff0066, #ff6600); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { color: #94a3b8; font-size: 12px; margin-top: 8px; text-transform: uppercase; }
+        .status-card {
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(16px);
+            margin-bottom: 40px;
+        }
+        .status-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+        .status-dot.online { background: #34d399; }
+        .status-dot.offline { background: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔥 NEXUS BOT</h1>
+            <p>Automated Group Intelligence</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="users">0</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="groups">0</div>
+                <div class="stat-label">Groups</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="messages">0</div>
+                <div class="stat-label">Messages</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="uptime">0</div>
+                <div class="stat-label">Uptime (s)</div>
+            </div>
+        </div>
+
+        <div class="status-card">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="status-dot online" id="statusDot"></span>
+                <span id="statusText">Loading...</span>
+                <span style="margin-left: auto; color: #94a3b8; font-size: 12px;">v2.0.0</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchStats() {
+            try {
+                const res = await fetch('/api/stats');
+                const data = await res.json();
+                
+                document.getElementById('users').textContent = data.users || 0;
+                document.getElementById('groups').textContent = data.groups || 0;
+                document.getElementById('messages').textContent = data.messages || 0;
+                document.getElementById('uptime').textContent = data.uptime || 0;
+                
+                const dot = document.getElementById('statusDot');
+                const text = document.getElementById('statusText');
+                
+                if (data.online) {
+                    dot.className = 'status-dot online';
+                    text.textContent = 'Online';
+                } else {
+                    dot.className = 'status-dot offline';
+                    text.textContent = 'Offline';
+                }
+            } catch (e) {
+                console.error('Stats error:', e);
+            }
+        }
+        
+        fetchStats();
+        setInterval(fetchStats, 5000);
+    </script>
+</body>
+</html>
