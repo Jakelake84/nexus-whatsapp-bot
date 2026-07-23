@@ -1,0 +1,83 @@
+Create a complete WhatsApp bot with the following features:
+
+1. WhatsApp Bot using whatsapp-web.js with LocalAuth session persistence
+
+2. Gemini AI Integration with these commands:
+   - /ask [question] - Get AI response from Gemini
+   - /summarize - Summarize group chat (placeholder)
+   - /translate [text] - Translate text (placeholder)
+
+3. Admin Commands (any group admin can use):
+   .del - Delete replied message
+   .ban - Ban user from group
+   .kick - Kick user from group
+   .mute - Mute user for 5 minutes
+   .unmute - Unmute user
+   .warn - Warn user (3 warns = ban)
+   .warns - Check user's warnings
+   .clearwarns - Clear user's warnings
+   .purge [count] - Delete multiple messages
+   .lock - Lock group (admins only)
+   .unlock - Unlock group
+   .slowmode [seconds] - Set slow mode
+   .pin - Pin message
+   .unpin - Unpin message
+   .setrules - Set group rules
+   .rules - Show group rules
+   .adminlist - List all admins
+   .stats - Group statistics
+   .info - User info
+   .id - Get user/chat ID
+
+4. User Commands:
+   /help - Show help menu
+   /rules - View group rules
+   /id - Get your ID
+   /ping - Check bot response time
+   /report @user - Report user to admins
+   /ask [question] - Ask AI anything
+
+5. Anti-Spam Features:
+   - Anti-link protection (auto-delete external links)
+   - Flood control (auto-mute spammers)
+   - Slow mode (limit messages per user)
+
+6. Express Server with REST API:
+   - GET /api/stats - Bot statistics
+   - GET /api/status - Bot status
+   - POST /api/pair - Generate pairing code
+   - POST /api/send - Send WhatsApp message
+   - GET / - Bot info
+
+7. Web Dashboard (public/index.html):
+   - Show stats: Users, Groups, Messages, Uptime
+   - Real-time status indicator
+   - Auto-refresh every 5 seconds
+
+8. PostgreSQL Database (Railway compatible) with tables:
+   - users: id, username, whatsapp_number, whatsapp_linked, is_admin, created_at
+   - groups: id, group_id, group_name, is_locked, slow_mode, welcome_msg, rules, joined_at
+   - warnings: id, user_id, group_id, count, updated_at
+   - messages: id, group_id, user_id, message, created_at
+   - settings: key, value, updated_at
+
+9. File Structure:
+   /commands/admin.js - Admin commands
+   /commands/user.js - User commands
+   /commands/ai.js - AI/Gemini commands
+   /database/db.js - Database functions
+   /utils/logger.js - Logging
+   /utils/helpers.js - Helper functions
+   /public/index.html - Web dashboard
+
+10. Environment Variables:
+    DATABASE_URL - PostgreSQL connection string
+    BOT_TOKEN - Telegram bot token
+    OWNER_ID - Telegram owner ID
+    GEMINI_API_KEY - Google Gemini API key
+    PORT - Server port (3000)
+
+11. Dependencies:
+    express, whatsapp-web.js, qrcode-terminal, cors, dotenv, pg, node-telegram-bot-api, axios, sharp
+
+12. Deploy on Railway with PostgreSQL plugin
