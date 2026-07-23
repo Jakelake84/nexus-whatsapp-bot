@@ -3,7 +3,7 @@ services:
     name: nexus-whatsapp-bot
     env: node
     plan: free
-    buildCommand: npm install
+    buildCommand: ./render-build.sh   # ← CHANGE THIS
     startCommand: npm start
     healthCheckPath: /
     autoDeploy: true
@@ -19,7 +19,9 @@ services:
       - key: GEMINI_API_KEY
         value: AQ.Ab8RN6JQHBHBLc7zBiWBi-NeCTU2aDR-Cr-Qm0WxWGsBhtJ0HQ
       - key: PORT
-        value: 3000
+        value: 10000
+      - key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+        value: false   # ← CHANGE THIS TO false
 
   - type: postgres
     name: nexus-db
